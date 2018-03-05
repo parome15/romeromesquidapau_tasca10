@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tabla de alumnos</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="js.js"></script>
+</head>
+<body>
+
+    <div class="container">
+       <h1> Tabla de Alumnos</h1>
+       <h2> #Introduce los atributos para cada alumno.</h2>
+       <!-- Inicio formulario -->
+       <form action="/action_page.php" id="formulario">
+           <div class="form-group">
+               <label for="DNI">DNI:</label>
+               <input type="text" class="form-control" id="dni" required></input>
+           </div>
+           <div class="form-group">
+               <label for="nombre">Nombre:</label>
+               <input type="text" class="form-control" id="nombre" required>
+           </div>
+           <div class="form-group">
+               <label for="apellido2">1er Apellido:</label>
+               <input type="text" class="form-control" id="apellido1" required>
+            </div>
+            <div class="form-group">
+               <label for="apellido2">2º Apellido:</label>
+               <input type="text" class="form-control" id="apellido2" required>
+            </div>
+            <div class="form-group">
+                    <label for="email">Correo electronico:</label>
+                    <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="form-group">
+                    <label for="nota">Nota:</label>
+                    <input type="number" class="form-control" id="nota" step="0.05" min="0" max="10" required>
+            </div>
+            <button type="submit" class="btn btn-default" id="submit">Introducir alumno</button>
+        </form>
+        <!-- Tabla que contiene los datos. Se actualiza dinámicamente -->
+        <table class="table table-hover" id="tabla">
+                <thead>
+                  <tr>
+                    <th>DNI (Documento Nacional Identidad)</th>
+                    <th>Nombre</th>
+                    <th>1º Apellido</th>
+                    <th>2º Apellido</th>
+                    <th>Correo electrónico</th>
+                    <th>Nota</th>
+                    <!-- Este th esta vacio para permitir añadir una columna al boton de borrar fila -->
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="cuerpoTabla">
+                    <!-- El contenido del cuerpo se generará dinamicamente -->
+                </tbody>
+              </table>
+    </div>
+    <script>
+    $(document).ready(function(){
+        /* Añadir filas a la tabla */
+        $("#formulario").submit(function(evento){
+            /* 
+            * La condición del IF nos permite añadir la fila
+            * cuando el DNI introducido exista 
+            * (validación a traves de js externo)
+            * si no se valida lanzará un alert y no añadirá ninguna fila
+            */
+                if(validarDni($("#dni").val())){
+                    var nuevaFila = $("<tr><td>"+$("#dni").val()+"</td><td>"+$("#nombre").val()
+                        +"</td><td>"+$("#apellido1").val()+"</td><td>"+$("#apellido2").val()
+                        +"</td><td>"+$("#email").val()+"</td><td>"+$("#nota").val()+"</td><td><button id='borrar'><i class='fas fa-trash-alt'>trash</i></button></td></tr>");
+                    /* 
+                    * appenTo .. Sirve para fijar el contenido que se vaya creando a la tabla
+                    * y que aparezca por debajo de la ultima fila
+                    */
+                    nuevaFila.appendTo("#cuerpoTabla"); 
+                    alert("Alumno añadido");
+                    /* Incluimos un reset para vaciar los campos del formulario */
+                    $("#formulario")[0].reset();
+                }else{
+                    alert("DNI introducido NO válido");
+                }
+                /* Devolver false para evitar comportamiento submit */
+                return false;
+        }); 
+        /* Borrar filas de la tabla */
+        $("#tabla").on('click', '#borrar', function(){
+        $(this).closest('tr').remove();
+    });
+    })
+   
+    </script>
+</body>
+</html>

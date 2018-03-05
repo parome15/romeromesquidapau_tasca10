@@ -1,0 +1,30 @@
+body {
+    background-color: chocolate;
+}
+
+h1 {
+    text-align: center;
+}
+h2{
+    text-align: center;
+    color: lime;
+}
+
+table {
+    margin-top: 20px;
+}
+
+#tabla{
+    border: black;
+}
+
+
+button {
+    background-color: rgb(182, 165, 73);
+}
+
+#borrar {
+    /* Sobrescribe el estilo de button */
+    background: none;
+    border: none;
+}
